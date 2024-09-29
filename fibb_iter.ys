@@ -1,0 +1,66 @@
+#==================================================
+# < Vy Nguyen >
+# fibb_iter.ys
+# a program to compute the ith fibonacci # iteratively
+# You must use iteration (no recursion)
+# March 2023
+# n:		1		2		3		4		5	...
+# fibbn: 	1		1		2		3		5	...
+#==================================================
+
+.pos 0
+	irmovq	stack, %rsp			# set up stack pointer
+	call 	main
+	halt
+
+.align 8
+.pos 0x40	
+fibb:
+	.quad	0x0					# location of final answer
+n:
+	.quad	0xb
+
+
+.pos 0x100
+#==================================================
+# main
+#==================================================
+
+main:
+	# -----------------------------------------
+	# your code here that puts the right value
+	# in the memory location fibb
+	# -----------------------------------------
+	irmovq n, %rdx		#rdx <- addr of n
+	mrmovq 0(%rdx), %rdx 	#rdx <- value of n
+	irmovq 1, %rax		#i=1 (for loop counter)
+	irmovq 1, %rbx		#fibb=1
+	irmovq 0, %rcx		#j = 0 (former value)
+	irmovq 1, %rsi 		#k = 1 (latter val)
+
+	jmp loop_test
+
+loop_body:
+	rrmovq %rsi, %rbx #fibb = k
+	addq %rcx, %rbx #fibb += j
+	rrmovq %rsi, %rcx #j = k
+	rrmovq %rbx, %rsi #k=fibb
+	irmovq 1, %rdi
+	addq %rdi, %rax #i++
+
+loop_test:
+	rrmovq %rax, %rdi	#rdi = i
+	subq	%rdx, %rdi	#if i < n
+	jl 	loop_body
+
+	#if i == n (=1) or i > n (n=0), return 1
+	irmovq	fibb, %rdx	#rdx = addr of fibb
+	rmmovq	%rbx, 0(%rdx)	#store fibb into memory
+
+	ret
+
+
+.pos 0x300
+stack:
+
+

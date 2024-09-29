@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-In this project, I will build an Arithmetic Logic Unit (ALU) using components from the Y86 processor, specifically focusing on its datapath and control path. This project aims to reinforce my understanding of how the ALU operates in a processor, how the datapath processes instructions, and how the control path governs these operations. By completing this project, I will deepen my knowledge of processor architecture and how the ALU fits within the larger system.
+In this project for the class **CS 281 - Introduction Systems** at Denison University, I will build an Arithmetic Logic Unit (ALU) using components from the Y86 processor, specifically focusing on its datapath and control path. This project aims to reinforce my understanding of how the ALU operates in a processor, how the datapath processes instructions, and how the control path governs these operations. By completing this project, I will deepen my knowledge of processor architecture and how the ALU fits within the larger system.
 
 ## Project Objectives
 

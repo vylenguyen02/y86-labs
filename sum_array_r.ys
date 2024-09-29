@@ -1,0 +1,86 @@
+#==================================================
+# < Vy Nguyen >
+# sum_array_r.ys
+# a program to sum the values in array recursively
+# March 2023
+#==================================================
+
+.pos 0
+	irmovq	stack, %rsp			# set up stack pointer
+	call 	main
+	halt
+
+.align 8
+.pos 0x40	
+sum:
+	.quad	0x0					# location of final answer
+n:
+	.quad	0x8
+.pos 0x60						# location of array
+array:
+	.quad	0x2
+	.quad	0x3
+	.quad	0x5
+	.quad	0x7
+	.quad	0xB
+	.quad	0xD
+	.quad	0x11
+	.quad	0x13
+
+#==================================================
+# main
+#==================================================
+main:
+	irmovq	array,%rdi		# first param is address of array
+	irmovq	n,%rsi			# second param is value of n
+	mrmovq	0(%rsi),%rsi	# n
+	# total = array_sum(array,n);
+	call	array_sum
+	irmovq  sum, %rdi
+	rmmovq	%rax,0(%rdi)	# store return value in sum
+	ret
+	
+	
+#==================================================
+# function: array_sum
+# parameters:
+#	rdi : address of long array
+#   rsi : size of array
+# return value
+#  	rax : sum of array values
+# This function must be recursive
+# 
+# if you use a stack frame, then add a picture here
+#==================================================
+
+array_sum:
+	# ------------------
+	irmovq $8, %r8 #constant 8
+	irmovq $1, %r9 #constant 1
+	irmovq $0, %rax #sum in %rax = 0
+	andq %rsi, %rsi #set condition codes
+	jmp test
+
+loop:
+	mrmovq (%rdi), %r10 #x = *array
+	xorq %r11, %r11 #const 0
+	subq %r10, %r11 #-x
+	jle pos #skip if -x <= 0
+	rrmovq %r11, %r10 #x = -x
+pos:
+	
+	addq %r8, %rdi #start++
+	subq %r9, %rsi #n--
+test:
+	jne loop #stop when 0
+
+	
+	# ------------------
+
+	ret
+	
+	
+.pos 0x400
+stack:
+		
+
